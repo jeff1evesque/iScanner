@@ -14,6 +14,13 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
 
+  # Custom Manifest: execute puppet logic in 'default.pp'. Specifically, this
+  #                  file will install, and setup various configurations.
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "/manifests"
+    puppet.manifest_file = "default.pp"
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.

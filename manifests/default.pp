@@ -23,4 +23,3 @@ class gcc {
 # implement classes
 include git
 include gnome
-include gcc

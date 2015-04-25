@@ -5,7 +5,7 @@ class git {
     }
 }
 
-# gnome ui: install gnome-ui if not 'present'.
+# gnome ui: install gnome-ui if not 'present' (double quote needed).
 class gnome {
     $gnome_packages = ["xorg", "gnome-core", "gnome-system-tools", "gnome-app-install"]
     package {$gnome_packages:

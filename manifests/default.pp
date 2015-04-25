@@ -13,13 +13,6 @@ class gnome {
     }
 }
 
-# gcc: installs the c++ compiler if not 'present'
-class gcc {
-    package {'g++':
-        ensure => present,
-    }
-}
-
 # implement classes
 include git
 include gnome

@@ -1,0 +1,4 @@
+# Ignore and don't commit the following directories
+.vagrant/
+
+# Ignore and don't commit the following files

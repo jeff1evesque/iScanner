@@ -1,6 +1,6 @@
 # git: install git if not 'present'.
 class git {
-    package { 'git':
+    package {'git':
         ensure => present,
     }
 }

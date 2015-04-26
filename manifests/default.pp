@@ -45,6 +45,8 @@ package {$opencv_dependency:
 #
 #  @timeout, the maximum time (seconds) the supplied command is allowed to
 #      run. By default, this attribute is set to 300.
+#
+#  @notify, send a 'refresh event' to 'unzip-opencv'.
 exec {'wget-opencv':
     command     => "wget -N ${opencv_codebase} -O opencv",
     cwd         => "${opencv_directory}",

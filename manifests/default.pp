@@ -5,9 +5,15 @@ $opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake
 ## define $PATH for all execs
 Exec {path => ['/usr/bin/']}
 
-## enable multiverse repo: allows installation of 'libfaac-dev'.
+## enable-apt-repository: installs the command 'add-apt-repository'.
+exec {'enable-apt-repository':
+    command => 'python-software-properties',
+}
+
+## enable-multiverse: enables multiverse repository, therefore, allows
+#                     installation of 'libfaac-dev'.
 exec {'enable-multiverse':
-    command => 'software-properties-gtk -e multiverse',
+    command => 'add-apt-repository multiverse',
 }
 
 ## git: install git if not 'present'.
@@ -20,7 +26,6 @@ package {$opencv_dependency:
     ensure => present,
 }
 
-## directory: create 'opencv' directory
 ## git-opencv: install opencv from github repository. However, if the target
 #              clone path already exists, then successive 'git clone'
 #              commands will not succeed.

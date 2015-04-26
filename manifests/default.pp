@@ -21,8 +21,8 @@ package {'python-software-properties':
 #      or ~>.  In this case, 'python-software-properties' implements the needed
 #      notify event.
 exec {'enable-multiverse':
-    command => 'add-apt-repository multiverse',
-    require => Package['python-software-properties'],
+    command     => 'add-apt-repository multiverse',
+    require     => Package['python-software-properties'],
     refreshonly => true,
 }
 
@@ -95,7 +95,7 @@ exec {'make-opencv':
 #
 #  @refreshonly, listens to the notify event from 'make-opencv'.
 exec {'install-opencv':
-    command    => 'make install',
+    command     => 'make install',
     cwd         => "${opencv_directory}/opencv/release",
     refreshonly => true,
 }

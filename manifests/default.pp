@@ -29,12 +29,14 @@ exec {'git-opencv':
     cwd     => "${opencv_directory}/OpenCV",
     path    => '/usr/bin',
     timeout => 450,
-    notify  => Exec['cmake-opencv'],
 }
 
 ## directory: create 'release' directory
+#
+#  @notify, sends a 'refresh event' to 'cmake-opencv'.
 file {"${opencv_directory}/OpenCV/opencv/release":
     ensure => 'directory',
+    notify => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv

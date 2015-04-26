@@ -21,7 +21,7 @@ package {'python-software-properties':
 #      notify event.
 exec {'enable-multiverse':
     command => 'add-apt-repository multiverse',
-    require => Package['python-software-properites'],
+    require => Package['python-software-properties'],
     refreshonly => true,
 }
 

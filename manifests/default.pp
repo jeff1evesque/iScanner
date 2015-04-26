@@ -31,8 +31,8 @@ package {$opencv_dependency:
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git opencv/',
     require => Package['git'],
-    cwd     => "${opencv_directory}/OpenCV",
-    timeout => 450,
+    cwd     => "${opencv_directory}",
+    timeout => 1450,
 }
 
 ## directory: create 'release' directory

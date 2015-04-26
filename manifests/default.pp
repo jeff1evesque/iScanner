@@ -9,6 +9,11 @@ package {'git':
     ensure => present,
 }
 
+## cmake: install cmake if not present
+package {'cmake':
+    ensure => present,
+}
+
 ## directory: create 'opencv' directory
 file {"${opencv_directory}/OpenCV":
     ensure => 'directory',

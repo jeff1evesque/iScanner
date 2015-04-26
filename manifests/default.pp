@@ -11,17 +11,18 @@ file {"${opencv_directory}/opencv":
     ensure => 'directory',
 }
 
-## git-opencv: install opencv from github repository.
-#
-#  @path, the qualified path for the supplied command.
+## git-opencv: install opencv from github repository. However, if the target
+#              clone path already exists, then successive 'git clone'
+#              commands will not succeed.
 #
 #  @require, defines depedencies for given command.
 #
+#  @cwd, change the current working directory.
+#
+#  @path, the qualified path for the supplied command.
+#
 #  @timeout, the maximum time (seconds) the supplied command is allowed to
 #      run. By default, this attribute is set to 300.
-#
-#  Note: if the target clone path already exists, then additional 'git clone'
-#        commands will not succeed.
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git opencv/',
     require => [Package['git'], File["${opencv_directory}/opencv"]],

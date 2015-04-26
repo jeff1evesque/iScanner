@@ -1,18 +1,19 @@
-# git: install git if not 'present'.
-class git {
-    package {'git':
-        ensure => present,
-    }
+## git: install git if not 'present'.
+package {'git':
+    ensure => present,
 }
 
-# gnome ui: install gnome-ui if not 'present' (double quote needed).
-class gnome {
-    $gnome_packages = ["xorg", "gnome-core", "gnome-system-tools", "gnome-app-install"]
-    package {$gnome_packages:
-        ensure => present,
-    }
+## opencv: install opencv from github repository.
+#
+#  @path, the qualified path for the supplied command.
+#
+#  @require, defines depedencies for given command.
+#
+#  @timeout, the maximum time the 'exec' command is allowed to run
+#      for.  By default, this attribute is set to 300s.
+exec {'git-opencv':
+    command => 'git clone https://github.com/Itseez/opencv.git',
+    require => Package['git'],
+    path => '/usr/bin',
+    timeout => 450,
 }
-
-# implement classes
-include git
-include gnome

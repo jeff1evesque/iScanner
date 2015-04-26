@@ -17,7 +17,8 @@ package {'python-software-properties':
 #                     installation of 'libfaac-dev'.
 #  @refreshonly, when set to true, the corresponding exec will only run when
 #      it receives an event. Refresh events can be sent via notify, subscribe,
-#      or ~>.  In this case, 'git-opencv' implements the needed notify event.
+#      or ~>.  In this case, 'python-software-properties' implements the needed
+#      notify event.
 exec {'enable-multiverse':
     command => 'add-apt-repository multiverse',
     require => Package['python-software-properites'],

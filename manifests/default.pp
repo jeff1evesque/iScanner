@@ -48,7 +48,7 @@ package {$opencv_dependency:
 #
 #  @notify, send a 'refresh event' to 'unzip-opencv'.
 exec {'wget-opencv':
-    command     => "wget -N ${opencv_codebase} -O opencv",
+    command     => "wget -N ${opencv_codebase} -O opencv.zip",
     cwd         => "${opencv_directory}",
     timeout     => 400,
     notify      => Exec['unzip-opencv'],

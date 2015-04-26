@@ -5,6 +5,11 @@ $opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake
 ## define $PATH for all execs
 Exec {path => ['/usr/bin/']}
 
+## enable multiverse repo: allows installation of 'libfaac-dev'.
+exec {'enable-multiverse':
+    command => 'software-properties-gtk -e multiverse',
+}
+
 ## git: install git if not 'present'.
 package {'git':
     ensure => present,

@@ -1,6 +1,14 @@
+## variables
+$opencv_directory = '/home/vagrant'
+
 ## git: install git if not 'present'.
 package {'git':
     ensure => present,
+}
+
+## directory: create 'opencv' directory
+file {"${opencv_directory}/opencv":
+    ensure => 'directory',
 }
 
 ## git-opencv: install opencv from github repository.
@@ -15,8 +23,8 @@ package {'git':
 #  Note: if the target clone path already exists, then additional 'git clone'
 #        commands will not succeed.
 exec {'git-opencv':
-    command => 'git clone https://github.com/Itseez/opencv.git',
-    require => Package['git'],
+    command => 'git clone https://github.com/Itseez/opencv.git opencv/',
+    require => [Package['git'], File["${opencv_directory}/opencv"]],
     path => '/usr/bin',
     timeout => 450,
 }

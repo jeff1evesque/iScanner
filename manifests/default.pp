@@ -28,7 +28,7 @@ file {"${opencv_directory}/OpenCV":
 #      run. By default, this attribute is set to 300.
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git opencv/',
-    require => [Package['git'], File["${opencv_directory}/opencv"]],
+    require => [Package['git'], File["${opencv_directory}/OpenCV"]],
     cwd     => "${opencv_directory}/OpenCV",
     timeout => 450,
 }

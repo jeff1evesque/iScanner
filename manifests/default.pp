@@ -1,6 +1,9 @@
 ## variables
 $opencv_directory = '/home/vagrant'
 
+## define $PATH for all execs
+Exec {path => ['/usr/bin/']}
+
 ## git: install git if not 'present'.
 package {'git':
     ensure => present,
@@ -27,7 +30,6 @@ exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git opencv/',
     require => [Package['git'], File["${opencv_directory}/opencv"]],
     cwd     => "${opencv_directory}/OpenCV",
-    path    => '/usr/bin',
     timeout => 450,
 }
 

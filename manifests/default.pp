@@ -8,6 +8,7 @@ Exec {path => ['/usr/bin/']}
 ## python-software-properties: installs the command 'add-apt-repository'.
 package {'python-software-properties':
     ensure => present,
+    notify => Exec['enable-multiverse'],
 }
 
 ## enable-multiverse: enables multiverse repository, therefore, allows
@@ -15,6 +16,7 @@ package {'python-software-properties':
 exec {'enable-multiverse':
     command => 'add-apt-repository multiverse',
     require => Package['python-software-properites'],
+    refreshonly => true,
 }
 
 ## git: install git if not 'present'.

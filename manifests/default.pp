@@ -52,8 +52,20 @@ exec {'cmake-opencv':
 }
 
 ## make-opencv: make opencv
+#
+#  @refreshonly, listens to the notify event from 'cmake-opencv'.
 exec {'make-opencv':
     command     => 'make',
+    cwd         => "${opencv_directory}/OpenCV/opencv/release",
+    refreshonly => true,
+    notify      => Exec['install-opencv'],
+}
+
+## install-opencv: install opencv
+#
+#  @refreshonly, listens to the notify event from 'make-opencv'.
+exec {'install-opencv':
+    command    => 'make install',
     cwd         => "${opencv_directory}/OpenCV/opencv/release",
     refreshonly => true,
 }

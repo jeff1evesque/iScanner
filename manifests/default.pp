@@ -24,6 +24,7 @@ exec {'enable-multiverse':
     command     => 'add-apt-repository multiverse',
     require     => Package['python-software-properties'],
     refreshonly => true,
+    before      => Package[$opencv_dependency],
 }
 
 ## opencv-dependencies
@@ -69,6 +70,7 @@ exec {'unzip-opencv':
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
     notify => Exec['cmake-opencv'],
+    before => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv

@@ -25,6 +25,7 @@ file {"${opencv_directory}/opencv":
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git opencv/',
     require => [Package['git'], File["${opencv_directory}/opencv"]],
+    cwd     => "${opencv_directory}/opencv",
     path => '/usr/bin',
     timeout => 450,
 }

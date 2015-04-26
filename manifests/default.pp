@@ -11,6 +11,9 @@ package {'git':
 #
 #  @timeout, the maximum time (seconds) the supplied command is allowed to
 #      run. By default, this attribute is set to 300.
+#
+#  Note: if the target clone path already exists, then additional 'git clone'
+#        commands will not succeed.
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git',
     require => Package['git'],

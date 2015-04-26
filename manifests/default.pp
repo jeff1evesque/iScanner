@@ -33,6 +33,7 @@ exec {'enable-multiverse':
 package {$opencv_dependency:
     ensure => present,
     notify => Exec['wget-opencv'],
+    before => Exec['wget-opencv'],
 }
 
 ## wget-opencv: install opencv from github repository. The command will only

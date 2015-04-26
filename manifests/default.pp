@@ -34,9 +34,8 @@ package {$opencv_dependency:
     notify => Exec['wget-opencv'],
 }
 
-## wget-opencv: install opencv from github repository. However, if the target
-#              clone path already exists, then successive 'git clone'
-#              commands will not succeed.
+## wget-opencv: install opencv from github repository. The command will only
+#               execute if the current file is older, or doesn't yet exist.
 #
 #  @require, defines depedencies for given command.
 #
@@ -47,13 +46,14 @@ package {$opencv_dependency:
 #  @timeout, the maximum time (seconds) the supplied command is allowed to
 #      run. By default, this attribute is set to 300.
 exec {'wget-opencv':
-    command     => "wget" ${opencv_codebase} -O opencv,
+    command     => "wget -N ${opencv_codebase} -O opencv",
     cwd         => "${opencv_directory}",
     timeout     => 400,
     notify      => Exec['unzip-opencv'],
     refreshonly => true,
 }
 
+## unzip-opencv: unzip the installed opencv.
 exec {'unzip-opencv':
     command => 'unzip opencv',
     cwd     => "${opencv_directory}",

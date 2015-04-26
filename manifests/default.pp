@@ -37,13 +37,13 @@ file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
 }
 
-## cmake-opencv:
+## cmake-opencv: build opencv
 #
 #  @refreshonly, when set to true, the corresponding exec will only run when
 #      it receives an event. Refresh events can be sent via notify, subscribe,
 #      or ~>.  In this case, 'git-opencv' implements the needed notify event.
 exec {'cmake-opencv':
     command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..'
-    cwd         => "${opencv_directory}/opencv",
+    cwd         => "${opencv_directory}/opencv/release",
     refreshonly => true,
 }

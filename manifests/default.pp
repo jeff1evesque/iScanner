@@ -3,7 +3,7 @@ package {'git':
     ensure => present,
 }
 
-## opencv: install opencv from github repository.
+## git-opencv: install opencv from github repository.
 #
 #  @path, the qualified path for the supplied command.
 #

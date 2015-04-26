@@ -5,9 +5,9 @@ $opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake
 ## define $PATH for all execs
 Exec {path => ['/usr/bin/']}
 
-## enable-apt-repository: installs the command 'add-apt-repository'.
-exec {'enable-apt-repository':
-    command => 'python-software-properties',
+## python-software-properties: installs the command 'add-apt-repository'.
+package {'python-software-properties':
+    ensure => present,
 }
 
 ## enable-multiverse: enables multiverse repository, therefore, allows

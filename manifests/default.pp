@@ -14,6 +14,7 @@ package {'python-software-properties':
 #                     installation of 'libfaac-dev'.
 exec {'enable-multiverse':
     command => 'add-apt-repository multiverse',
+    require => Package['python-software-properites'],
 }
 
 ## git: install git if not 'present'.

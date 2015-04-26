@@ -57,9 +57,10 @@ exec {'wget-opencv':
 
 ## unzip-opencv: unzip the installed opencv.
 exec {'unzip-opencv':
-    command => 'unzip opencv.zip',
-    cwd     => "${opencv_directory}",
+    command     => 'unzip opencv.zip',
+    cwd         => "${opencv_directory}",
     refreshonly => true,
+    before      => File["${opencv_directory}/opencv/release"],
 }
 
 ## directory: create 'release' directory

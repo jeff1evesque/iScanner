@@ -9,8 +9,8 @@ package {'git':
 #
 #  @require, defines depedencies for given command.
 #
-#  @timeout, the maximum time (seconds) the 'exec' command is allowed to
-#      run. By default, this attribute is set to 300s.
+#  @timeout, the maximum time (seconds) the supplied command is allowed to
+#      run. By default, this attribute is set to 300.
 exec {'git-opencv':
     command => 'git clone https://github.com/Itseez/opencv.git',
     require => Package['git'],

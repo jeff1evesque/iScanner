@@ -1,6 +1,7 @@
 ## variables
+$opencv_codebase   = https://github.com/Itseez/opencv/archive/3.0.0-beta.zip
 $opencv_directory  = '/home/vagrant'
-$opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake', 'pkg-config', 'yasm', 'libtiff4-dev', 'libjpeg-dev', 'libjasper-dev', 'libavcodec-dev', 'libavformat-dev', 'libswscale-dev', 'libdc1394-22-dev', 'libxine-dev', 'libgstreamer0.10-dev', 'libgstreamer-plugins-base0.10-dev', 'libv4l-dev', 'python-dev', 'python-numpy', 'libtbb-dev', 'libqt4-dev', 'libgtk2.0-dev', 'libfaac-dev', 'libmp3lame-dev', 'libopencore-amrnb-dev', 'libopencore-amrwb-dev', 'libtheora-dev', 'libvorbis-dev', 'libxvidcore-dev', 'x264', 'v4l-utils']
+$opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake', 'pkg-config', 'yasm', 'libtiff4-dev', 'libjpeg-dev', 'libjasper-dev', 'libavcodec-dev', 'libavformat-dev', 'libswscale-dev', 'libdc1394-22-dev', 'libxine-dev', 'libgstreamer0.10-dev', 'libgstreamer-plugins-base0.10-dev', 'libv4l-dev', 'python-dev', 'python-numpy', 'libtbb-dev', 'libqt4-dev', 'libgtk2.0-dev', 'libfaac-dev', 'libmp3lame-dev', 'libopencore-amrnb-dev', 'libopencore-amrwb-dev', 'libtheora-dev', 'libvorbis-dev', 'libxvidcore-dev', 'x264', 'v4l-utils', 'unzip']
 
 ## define $PATH for all execs
 Exec {path => ['/usr/bin/']}
@@ -25,17 +26,15 @@ exec {'enable-multiverse':
     refreshonly => true,
 }
 
-## git: install git if not 'present'.
-package {'git':
-    ensure => present,
-}
-
 ## opencv-dependencies
+#
+#  @notify, send a 'refresh event' to 'wget-opencv'.
 package {$opencv_dependency:
     ensure => present,
+    notify => Exec['wget-opencv'],
 }
 
-## git-opencv: install opencv from github repository. However, if the target
+## wget-opencv: install opencv from github repository. However, if the target
 #              clone path already exists, then successive 'git clone'
 #              commands will not succeed.
 #
@@ -47,11 +46,18 @@ package {$opencv_dependency:
 #
 #  @timeout, the maximum time (seconds) the supplied command is allowed to
 #      run. By default, this attribute is set to 300.
-exec {'git-opencv':
-    command => 'git clone https://github.com/Itseez/opencv.git opencv/',
-    require => Package['git'],
+exec {'wget-opencv':
+    command     => "wget" ${opencv_codebase} -O opencv,
+    cwd         => "${opencv_directory}",
+    timeout     => 400,
+    notify      => Exec['unzip-opencv'],
+    refreshonly => true,
+}
+
+exec {'unzip-opencv':
+    command => 'unzip opencv',
     cwd     => "${opencv_directory}",
-    timeout => 1450,
+    refreshonly => true,
 }
 
 ## directory: create 'release' directory

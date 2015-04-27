@@ -67,23 +67,20 @@ exec {'unzip-opencv':
     before      => File["${opencv_directory}/opencv/release"],
 }
 
-## directory: create 'release' directory.
-#
-#  @notify, send a 'refresh event' to 'copy-CMakeLists'.
+## directory-release: create 'release' directory.
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
-    notify => Exec['copy-CMakeLists'],
-    before => Exec['copy-CMakeLists'],
+    before => file["${opencv_directory}/opencv/release/CMakeLists.txt"],
 }
 
-## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.
+## file-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
-exec {'copy-CMakeLists':
-    command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
-    cwd         => "${opencv_directory}/opencv/release",
-    refreshonly => true,
-    notify      => Exec['cmake-opencv'],
+file {"${opencv_directory}/opencv/release/CMakeLists.txt":
+    ensure  => present,
+    source  => '${opencv_directory}/opencv/opencv*/CMakeLists.txt'
+    notify  => Exec['cmake-opencv'],
+    before  => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.

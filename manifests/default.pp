@@ -17,6 +17,7 @@ package {'python-software-properties':
 
 ## enable-multiverse: enables multiverse repository, therefore, allows
 #                     installation of 'libfaac-dev'.
+#
 #  @refreshonly, when set to true, the corresponding exec will only run when
 #      it receives an event. Refresh events can be sent via notify, subscribe,
 #      or ~>.  In this case, 'python-software-properties' implements the needed
@@ -97,7 +98,7 @@ exec {'copy-CMakeLists':
 
 ## make-opencv: make opencv
 #
-#  @refreshonly, listens to the notify event from 'cmake-opencv'.
+#  @notify, send a 'refresh event' to 'install-opencv'.
 exec {'make-opencv':
     command     => 'make',
     cwd         => "${opencv_directory}/opencv/release",
@@ -105,9 +106,7 @@ exec {'make-opencv':
     notify      => Exec['install-opencv'],
 }
 
-## install-opencv: install opencv
-#
-#  @refreshonly, listens to the notify event from 'make-opencv'.
+## install-opencv: install opencv.
 exec {'install-opencv':
     command     => 'make install',
     cwd         => "${opencv_directory}/opencv/release",

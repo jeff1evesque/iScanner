@@ -93,7 +93,7 @@ exec {'copy-OpenCVMinDepVersions':
     command     => "cp ${opencv_directory}/opencv/opencv*/cmake/OpenCVMinDepVersions.cmake OpenCVMinDepVersions.cmake",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
-    notify      => Exec['copy-OpenCMUtils'],
+    notify      => Exec['copy-OpenCVUtils'],
 }
 
 ## copy-OpenCVMinDepVersions: copy the 'OpenCVUtils.cmake' into the 'opencv/' directory.

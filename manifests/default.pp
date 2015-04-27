@@ -76,7 +76,7 @@ file {"${opencv_directory}/opencv/release":
     notify => Exec['copy-CMakeLists'],
 }
 
-## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.
+## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'opencv/' directory.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 exec {'copy-CMakeLists':

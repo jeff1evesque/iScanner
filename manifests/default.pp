@@ -74,7 +74,7 @@ exec {'unzip-opencv':
 #
 #  @notify, send a 'refresh event' to 'remove-opencv-directory'.
 exec {'move-opencv':
-    command     => "mv ${opencv_directory}/opencv/*/* opencv",
+    command     => "mv ${opencv_directory}/opencv/opencv-${opencv_version}/* opencv",
     cwd         => "${opencv_directory}",
     refreshonly => true,
     notify      => Exec['remove-opencv-directory'],

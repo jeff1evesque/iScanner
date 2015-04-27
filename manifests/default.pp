@@ -60,8 +60,19 @@ exec {'wget-opencv':
 }
 
 ## unzip-opencv: unzip the installed opencv.
+#
+#  @notify, send a 'refresh event' to 'move-opencv'.
 exec {'unzip-opencv':
-    command     => "unzip 'opencv.zip' \"opencv/*\" -d \"${opencv_directory}\"",
+    command     => 'unzip opencv.zip -d opencv',
+    cwd         => "${opencv_directory}",
+    notify      => Exec['move-opencv'],
+    refreshonly => true,
+}
+
+## move-opencv: move opencv content up one directory.
+exec {'move-opencv':
+    command     => "mv ${opencv_directory}/opencv/*/* opencv",
+    cwd         => "${opencv_directory}",
     refreshonly => true,
     before      => File["${opencv_directory}/opencv/release"],
 }

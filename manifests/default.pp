@@ -70,10 +70,20 @@ exec {'unzip-opencv':
     refreshonly => true,
 }
 
-## move-opencv: move opencv content up one directory.
+## move-opencv: move content of the opencv directory up one level.
+#
+#  @notify, send a 'refresh event' to 'remove-opencv-directory'.
 exec {'move-opencv':
     command     => "mv ${opencv_directory}/opencv/*/* opencv",
     cwd         => "${opencv_directory}",
+    refreshonly => true,
+    notify      => Exec['remove-opencv-directory'],
+}
+
+## remove-opencv-directory: after the content of the opencv directory has
+#                           been moved, remove the empty directory.
+exec {'remove-opencv-directory':
+    command     => "rm ${opencv_directory}/opencv/opencv-${opencv_version}"
     refreshonly => true,
     before      => File["${opencv_directory}/opencv/release"],
 }
@@ -83,8 +93,8 @@ exec {'move-opencv':
 #  @notify, send a 'refresh event' to 'cmake-CMakeLists'.
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
-    before => Exec['cmake-opencv'],
     notify => Exec['cmake-opencv'],
+    before => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.
@@ -93,8 +103,8 @@ file {"${opencv_directory}/opencv/release":
 exec {'cmake-opencv':
     command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..',
     cwd         => "${opencv_directory}/opencv/release",
-    refreshonly => true,
     notify      => Exec['make-opencv'],
+    refreshonly => true,
 }
 
 ## make-opencv: make opencv.
@@ -104,8 +114,8 @@ exec {'make-opencv':
     command     => "make -j $(nproc)",
     cwd         => "${opencv_directory}/opencv/release",
     timeout     => 1800,
-    refreshonly => true,
     notify      => Exec['install-opencv'],
+    refreshonly => true,
 }
 
 ## install-opencv: install opencv.

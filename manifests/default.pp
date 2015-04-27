@@ -134,10 +134,9 @@ exec {'update-opencv':
     refreshonly => true,
 }
 
-## ldconfig: scan current running system, and set up the symbolic links (i.e.
-#            dynamic linker) necessary to load shared libraries. Specifically,
-#            this will allow the opencv library to run properly by rebuilding
-#            the shared library cache.
+## ldconfig: scan current running system, set up the symbolic links (i.e. dynamic
+#            linkers), and cache needed (for dynamic linkers) to load shared
+#            libraries. This will allow the opencv library to run properly.
 exec {'ldconfig':
     command     => 'ldconfig',
     refreshonly => true,

@@ -73,7 +73,7 @@ exec {'unzip-opencv':
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
     notify => Exec['copy-CMakeLists'],
-    before => Exec['cmake-opencv'],
+    before => Exec['copy-CMakeLists'],
 }
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.

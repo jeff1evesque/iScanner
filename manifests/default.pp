@@ -81,7 +81,7 @@ file {"${opencv_directory}/opencv/release":
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
-    cwd         => "${opencv_directory}/opencv/release",
+    cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
     notify      => Exec['cmake-opencv'],
 }

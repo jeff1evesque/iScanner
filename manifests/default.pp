@@ -61,8 +61,7 @@ exec {'wget-opencv':
 
 ## unzip-opencv: unzip the installed opencv.
 exec {'unzip-opencv':
-    command     => 'unzip opencv.zip -d opencv',
-    cwd         => "${opencv_directory}",
+    command     => "unzip 'opencv.zip' \"opencv/*\" -d \"${opencv_directory}\"",
     refreshonly => true,
     before      => File["${opencv_directory}/opencv/release"],
 }
@@ -72,44 +71,8 @@ exec {'unzip-opencv':
 #  @notify, send a 'refresh event' to 'cmake-CMakeLists'.
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
-    before => Exec['copy-CMakeLists'],
-    notify => Exec['copy-CMakeLists'],
-}
-
-## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'opencv/' directory.
-#
-#  @notify, send a 'refresh event' to 'copy-license'.
-exec {'copy-CMakeLists':
-    command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
-    cwd         => "${opencv_directory}/opencv",
-    refreshonly => true,
-    notify      => Exec['copy-license'],
-}
-
-## copy-license: copy the 'LICENSE' into the 'opencv/' directory.
-exec {'copy-license':
-    command     => "cp ${opencv_directory}/opencv/opencv*/LICENSE LICENSE",
-    cwd         => "${opencv_directory}/opencv",
-    refreshonly => true,
-    before      => File["${opencv_directory}/opencv/cmake"],
-}
-
-## directory-cmake: create 'cmake' directory.
-#
-#  @notify, send a 'refresh event' to 'cmake-cmake'.
-file {"${opencv_directory}/opencv/cmake":
-    ensure => 'directory',
-    before => Exec['copy-cmake'],
-    notify => Exec['copy-cmake'],
-}
-
-## copy-cmake: copy 'cmake/' directory to another location.
-#
-#  @notify, send a 'refresh event' to 'cmake-opencv'.
-exec {'copy-cmake':
-    command     => "cp ${opencv_directory}/opencv/opencv*/cmake -r ${opencv_directory}/opencv",
-    refreshonly => true,
-    notify      => Exec['cmake-opencv'],
+    before => Exec['cmake-opencv'],
+    notify => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.

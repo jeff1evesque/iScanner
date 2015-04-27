@@ -95,7 +95,7 @@ file {"${opencv_directory}/opencv/cmake":
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 exec {'copy-cmake':
-    command     => "cp ${opencv_directory}/opencv/opencv*/cmake cmake",
+    command     => "cp ${opencv_directory}/opencv/opencv*/cmake -R cmake",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
     notify      => Exec['cmake-opencv'],

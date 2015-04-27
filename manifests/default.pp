@@ -81,7 +81,7 @@ exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
-    before      => Exec["${opencv_directory}/opencv/cmake"],
+    before      => File["${opencv_directory}/opencv/cmake"],
 }
 
 ## directory-cmake: create 'cmake' directory.

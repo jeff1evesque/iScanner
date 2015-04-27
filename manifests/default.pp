@@ -78,7 +78,7 @@ file {"${opencv_directory}/opencv/release":
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 file {"${opencv_directory}/opencv/release/CMakeLists.txt":
     ensure  => present,
-    source  => '${opencv_directory}/opencv/opencv*/CMakeLists.txt'
+    source  => '${opencv_directory}/opencv/opencv*/CMakeLists.txt',
     notify  => Exec['cmake-opencv'],
     before  => Exec['cmake-opencv'],
 }

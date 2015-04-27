@@ -91,7 +91,7 @@ exec {'copy-CMakeLists':
 exec {"${opencv_directory}/opencv/cmake":
     ensure      => 'directory',
     refreshonly => true,
-    before      => File["${opencv_directory}/opencv/openvc*/cmake],
+    before      => File["${opencv_directory}/opencv/openvc*/cmake"],
 }
 
 ## files-cmake: copy 'cmake/' directory to another location.
@@ -100,6 +100,7 @@ exec {"${opencv_directory}/opencv/cmake":
 file {"${opencv_directory}/opencv/openvc*/cmake":
     ensure  => directory,
     source  => "${opencv_directory}/opencv/cmake",
+    recurse => true,
     before  => Exec['cmake-opencv'],
     after   => Exec["${opencv_directory}/opencv/cmake"],
     notify  => Exec['cmake-opencv'],

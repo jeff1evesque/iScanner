@@ -78,9 +78,29 @@ file {"${opencv_directory}/opencv/release":
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'opencv/' directory.
 #
-#  @notify, send a 'refresh event' to 'cmake-opencv'.
+#  @notify, send a 'refresh event' to 'copy-OpenCVMinDepVersions'.
 exec {'copy-CMakeLists':
-    command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
+    command     => "cp ${opencv_directory}/opencv/opencv*/cmake/CMakeLists.txt CMakeLists.txt",
+    cwd         => "${opencv_directory}/opencv",
+    refreshonly => true,
+    notify      => Exec['copy-OpenCVMinDepVersions'],
+}
+
+## copy-OpenCVMinDepVersions: copy the 'OpenCVMinDepVersions.cmake' into the 'opencv/' directory.
+#
+#  @notify, send a 'refresh event' to 'copy-OpenCMUtils'.
+exec {'copy-OpenCVMinDepVersions':
+    command     => "cp ${opencv_directory}/opencv/opencv*/cmake/OpenCVMinDepVersions.cmake OpenCVMinDepVersions.cmake",
+    cwd         => "${opencv_directory}/opencv",
+    refreshonly => true,
+    notify      => Exec['copy-OpenCMUtils'],
+}
+
+## copy-OpenCVMinDepVersions: copy the 'OpenCVUtils.cmake' into the 'opencv/' directory.
+#
+#  @notify, send a 'refresh event' to 'cmake-opencv'.
+exec {'copy-OpenCVUtils':
+    command     => "cp ${opencv_directory}/opencv/opencv*/cmake/OpenCVUtils.cmake OpenCVUtils.cmake",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
     notify      => Exec['cmake-opencv'],
@@ -100,7 +120,7 @@ exec {'cmake-opencv':
 #
 #  @notify, send a 'refresh event' to 'install-opencv'.
 exec {'make-opencv':
-    command     => 'make',
+    command     => "make -j $(nproc)",
     cwd         => "${opencv_directory}/opencv/release",
     refreshonly => true,
     notify      => Exec['install-opencv'],

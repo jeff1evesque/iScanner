@@ -97,7 +97,7 @@ exec {"${opencv_directory}/opencv/cmake":
 ## files-cmake: copy 'cmake/' directory to another location.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
-file {"${opencv_directory}/opencv/openvc*/cmake:
+file {"${opencv_directory}/opencv/openvc*/cmake":
     ensure  => directory,
     source  => "${opencv_directory}/opencv/cmake",
     before  => Exec['cmake-opencv'],

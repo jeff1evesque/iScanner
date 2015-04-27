@@ -1,7 +1,7 @@
 ## variables
 $opencv_codebase   = 'https://github.com/Itseez/opencv/archive/3.0.0-beta.zip'
 $opencv_directory  = '/home/vagrant'
-$opencv_dependency = ['libopencv-dev', 'build-essential', 'checkinstall', 'cmake', 'pkg-config', 'yasm', 'libtiff4-dev', 'libjpeg-dev', 'libjasper-dev', 'libavcodec-dev', 'libavformat-dev', 'libswscale-dev', 'libdc1394-22-dev', 'libxine-dev', 'libgstreamer0.10-dev', 'libgstreamer-plugins-base0.10-dev', 'libv4l-dev', 'python-dev', 'python-numpy', 'libtbb-dev', 'libqt4-dev', 'libgtk2.0-dev', 'libfaac-dev', 'libmp3lame-dev', 'libopencore-amrnb-dev', 'libopencore-amrwb-dev', 'libtheora-dev', 'libvorbis-dev', 'libxvidcore-dev', 'x264', 'v4l-utils', 'unzip']
+$opencv_dependency = ['libopencv-dev', 'build-essential', 'cmake', 'git', 'libgtk2.0-dev', 'pkg-config', 'python-dev', 'python-numpy', 'libdc1394-22', 'libdc1394-22-dev', 'libjpeg-dev', 'libpng12-dev', 'libtiff4-dev', 'libjasper-dev', 'libavcodec-dev', 'libavformat-dev', 'libswscale-dev', 'libxine-dev', 'libgstreamer0.10-dev', 'libgstreamer-plugins-base0.10-dev', 'libv4l-dev', 'libtbb-dev', 'libqt4-dev', 'libfaac-dev', 'libmp3lame-dev', 'libopencore-amrnb-dev', 'libopencore-amrwb-dev', 'libtheora-dev', 'libvorbis-dev', 'libxvidcore-dev', 'x264', 'v4l-utils', 'unzip']
 
 ## define $PATH for all execs
 Exec {path => ['/bin/', '/usr/bin/']}
@@ -73,24 +73,20 @@ exec {'unzip-opencv':
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
     before => Exec['copy-CMakeLists'],
-    after  => Exec['unzip-opencv'],
     notify => Exec['copy-CMakeLists'],
 }
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'opencv/' directory.
-#
-#  @notify, send a 'refresh event' to 'copy-OpenCVMinDepVersions'.
 exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
-    notify      => Exec["${opencv_directory}/opencv/cmake"],
+    before      => Exec["${opencv_directory}/opencv/cmake"],
 }
 
 ## directory-cmake: create 'cmake' directory.
-exec {"${opencv_directory}/opencv/cmake":
+file {"${opencv_directory}/opencv/cmake":
     ensure      => 'directory',
-    refreshonly => true,
     before      => File["${opencv_directory}/opencv/openvc*/cmake"],
 }
 
@@ -102,7 +98,6 @@ file {"${opencv_directory}/opencv/openvc*/cmake":
     source  => "${opencv_directory}/opencv/cmake",
     recurse => true,
     before  => Exec['cmake-opencv'],
-    after   => Exec["${opencv_directory}/opencv/cmake"],
     notify  => Exec['cmake-opencv'],
 }
 

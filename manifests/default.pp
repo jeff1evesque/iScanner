@@ -67,7 +67,7 @@ exec {'unzip-opencv':
     before      => File["${opencv_directory}/opencv/release"],
 }
 
-## directory: create 'release' directory
+## directory: create 'release' directory.
 #
 #  @notify, send a 'refresh event' to 'copy-CMakeLists'.
 file {"${opencv_directory}/opencv/release":
@@ -96,7 +96,7 @@ exec {'cmake-opencv':
     notify      => Exec['make-opencv'],
 }
 
-## make-opencv: make opencv
+## make-opencv: make opencv.
 #
 #  @notify, send a 'refresh event' to 'install-opencv'.
 exec {'make-opencv':

@@ -96,7 +96,7 @@ exec {'copy-OpenCVMinDepVersions':
     notify      => Exec['copy-OpenCVUtils'],
 }
 
-## copy-OpenCVMinDepVersions: copy the 'OpenCVUtils.cmake' into the 'opencv/' directory.
+## copy-OpenCVUtils: copy the 'OpenCVUtils.cmake' into the 'opencv/' directory.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 exec {'copy-OpenCVUtils':

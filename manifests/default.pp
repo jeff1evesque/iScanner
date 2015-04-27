@@ -73,6 +73,7 @@ exec {'unzip-opencv':
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
     before => Exec['copy-CMakeLists'],
+    after  => Exec['unzip-opencv'],
     notify => Exec['copy-CMakeLists'],
 }
 
@@ -98,9 +99,9 @@ exec {"${opencv_directory}/opencv/cmake":
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
 file {"${opencv_directory}/opencv/openvc*/cmake:
     ensure  => directory,
-    recurse => remote,
     source  => "${opencv_directory}/opencv/cmake",
     before  => 'cmake-opencv',
+    after   => Exec["${opencv_directory}/opencv/cmake"],
     notify  => Exec['cmake-opencv'],
 }
 

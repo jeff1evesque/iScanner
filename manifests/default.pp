@@ -69,21 +69,11 @@ exec {'unzip-opencv':
 
 ## directory: create 'release' directory
 #
-#  @notify, send a 'refresh event' to 'cmake-opencv'.
+#  @notify, send a 'refresh event' to 'copy-CMakeLists'.
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
-    notify => Exec['cmake-opencv'],
+    notify => Exec['copy-CMakeLists'],
     before => Exec['cmake-opencv'],
-}
-
-## cmake-opencv: build opencv.
-#
-#  @notify, send a 'refresh event' to 'copy-CMakeLists'.
-exec {'cmake-opencv':
-    command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..',
-    cwd         => "${opencv_directory}/opencv/release",
-    refreshonly => true,
-    notify      => Exec['copy-CMakeLists'],
 }
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.
@@ -91,6 +81,16 @@ exec {'cmake-opencv':
 #  @notify, send a 'refresh event' to 'make-opencv'.
 exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
+    cwd         => "${opencv_directory}/opencv/release",
+    refreshonly => true,
+    notify      => Exec['make-opencv'],
+}
+
+## cmake-opencv: build opencv.
+#
+#  @notify, send a 'refresh event' to 'make-opencv'.
+exec {'cmake-opencv':
+    command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..',
     cwd         => "${opencv_directory}/opencv/release",
     refreshonly => true,
     notify      => Exec['make-opencv'],

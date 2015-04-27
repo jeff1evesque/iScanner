@@ -86,19 +86,19 @@ exec {'copy-CMakeLists':
 
 ## directory-cmake: create 'cmake' directory.
 file {"${opencv_directory}/opencv/cmake":
-    ensure      => 'directory',
-    before      => File["${opencv_directory}/opencv/opencv*/cmake"],
+    ensure => 'directory',
+    before => Exec['copy-cmake'],
+    notify => Exec['copy-cmake'],
 }
 
-## files-cmake: copy 'cmake/' directory to another location.
+## copy-cmake: copy 'cmake/' directory to another location.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
-file {"${opencv_directory}/opencv/opencv*/cmake":
-    ensure  => directory,
-    source  => "${opencv_directory}/opencv/cmake",
-    recurse => true,
-    before  => Exec['cmake-opencv'],
-    notify  => Exec['cmake-opencv'],
+exec {'copy-cmake':
+    command     => "cp ${opencv_directory}/opencv/opencv*/cmake cmake",
+    cwd         => "${opencv_directory}/opencv",
+    refreshonly => true,
+    notify      => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.

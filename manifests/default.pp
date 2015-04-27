@@ -12,6 +12,7 @@ Exec {path => ['/usr/bin/']}
 package {'python-software-properties':
     ensure => present,
     notify => Exec['enable-multiverse'],
+    before => Exec['enable-multiverse'],
 }
 
 ## enable-multiverse: enables multiverse repository, therefore, allows

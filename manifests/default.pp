@@ -122,5 +122,20 @@ exec {'make-opencv':
 exec {'install-opencv':
     command     => 'make install',
     cwd         => "${opencv_directory}/opencv/release",
+    notify      => Exec['update-opencv'],
+    refreshonly => true,
+}
+
+## update-opencv: execute bash as root, and overwrite '.conf' file with echo.
+exec {'update-opencv':
+    command => "/bin/bash -c 'echo \"/usr/local/lib\" > /etc/ld.so.conf.d/opencv.conf'",
+    notify  => Exec['ldconfig'],
+    refreshonly => true,
+}
+
+## ldconfig: scan current running system, and set up the symbolic links necessary
+#            to load shared libraries.
+exec {'ldconfig':
+    command     => 'ldconfig',
     refreshonly => true,
 }

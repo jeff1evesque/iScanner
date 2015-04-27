@@ -127,14 +127,17 @@ exec {'install-opencv':
 }
 
 ## update-opencv: execute bash as root, and overwrite '.conf' file with echo.
+#                 This will define the settings required for a 'dynamic linker'.
 exec {'update-opencv':
     command => "/bin/bash -c 'echo \"/usr/local/lib\" > /etc/ld.so.conf.d/opencv.conf'",
     notify  => Exec['ldconfig'],
     refreshonly => true,
 }
 
-## ldconfig: scan current running system, and set up the symbolic links necessary
-#            to load shared libraries.
+## ldconfig: scan current running system, and set up the symbolic links (i.e.
+#            dynamic linker) necessary to load shared libraries. Specifically,
+#            this will allow the opencv library to run properly by rebuilding
+#            the shared library cache.
 exec {'ldconfig':
     command     => 'ldconfig',
     refreshonly => true,

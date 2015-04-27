@@ -129,7 +129,7 @@ exec {'install-opencv':
 ## update-opencv: execute bash as root, and overwrite '.conf' file with echo.
 #                 This will define the settings required for a 'dynamic linker'.
 exec {'update-opencv':
-    command => "/bin/bash -c 'echo \"/usr/local/lib\" > /etc/ld.so.conf.d/opencv.conf'",
+    command => "/bin/bash -c 'echo \"/usr/local/lib\" > /etc/ld.so.conf.d/opencv.conf",
     notify  => Exec['ldconfig'],
     refreshonly => true,
 }

@@ -100,7 +100,7 @@ exec {"${opencv_directory}/opencv/cmake":
 file {"${opencv_directory}/opencv/openvc*/cmake:
     ensure  => directory,
     source  => "${opencv_directory}/opencv/cmake",
-    before  => 'cmake-opencv',
+    before  => Exec['cmake-opencv'],
     after   => Exec["${opencv_directory}/opencv/cmake"],
     notify  => Exec['cmake-opencv'],
 }

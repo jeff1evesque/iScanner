@@ -68,9 +68,12 @@ exec {'unzip-opencv':
 }
 
 ## directory-release: create 'release' directory.
+#
+#  @notify, send a 'refresh event' to 'cmake-CMakeLists'.
 file {"${opencv_directory}/opencv/release":
     ensure => 'directory',
     before => Exec['copy-CMakeLists'],
+    notify => Exec['copy-CMakeLists'],
 }
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'release/' directory.

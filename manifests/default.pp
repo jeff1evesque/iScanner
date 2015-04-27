@@ -29,7 +29,7 @@ exec {'enable-multiverse':
     before      => Package[$opencv_dependency],
 }
 
-## opencv-dependencies
+## opencv-dependency: install openv package dependencies.
 #
 #  @notify, send a 'refresh event' to 'wget-opencv'.
 package {$opencv_dependency:

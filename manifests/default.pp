@@ -140,4 +140,5 @@ exec {'update-opencv':
 exec {'ldconfig':
     command     => 'ldconfig',
     refreshonly => true,
+    path        => '/sbin/',
 }

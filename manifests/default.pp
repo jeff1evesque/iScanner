@@ -83,7 +83,7 @@ exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
     cwd         => "${opencv_directory}/opencv/release",
     refreshonly => true,
-    notify      => Exec['make-opencv'],
+    notify      => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.

@@ -69,7 +69,7 @@ exec {'unzip-opencv':
 
 ## directory-release: create 'release' directory.
 file {"${opencv_directory}/opencv/release":
-    ensure => 'directory',
+    ensure => present,
     before => file["${opencv_directory}/opencv/release/CMakeLists.txt"],
 }
 

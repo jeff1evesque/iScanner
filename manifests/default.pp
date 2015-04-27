@@ -77,14 +77,26 @@ file {"${opencv_directory}/opencv/release":
 }
 
 ## copy-CMakeLists: copy the 'CMakeLists.txt' into the 'opencv/' directory.
+#
+#  @notify, send a 'refresh event' to 'copy-license'.
 exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
+    cwd         => "${opencv_directory}/opencv",
+    refreshonly => true,
+    notify      => Exec['copy-license'],
+}
+
+## copy-license: copy the 'LICENSE' into the 'opencv/' directory.
+exec {'copy-license':
+    command     => "cp ${opencv_directory}/opencv/opencv*/LICENSE LICENSE",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
     before      => File["${opencv_directory}/opencv/cmake"],
 }
 
 ## directory-cmake: create 'cmake' directory.
+#
+#  @notify, send a 'refresh event' to 'cmake-cmake'.
 file {"${opencv_directory}/opencv/cmake":
     ensure => 'directory',
     before => Exec['copy-cmake'],

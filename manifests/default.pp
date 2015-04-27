@@ -83,27 +83,24 @@ exec {'copy-CMakeLists':
     command     => "cp ${opencv_directory}/opencv/opencv*/CMakeLists.txt CMakeLists.txt",
     cwd         => "${opencv_directory}/opencv",
     refreshonly => true,
-    notify      => Exec['copy-OpenCVMinDepVersions'],
+    notify      => Exec["${opencv_directory}/opencv/cmake"],
 }
 
-## copy-OpenCVMinDepVersions: copy the 'OpenCVMinDepVersions.cmake' into the 'opencv/' directory.
-#
-#  @notify, send a 'refresh event' to 'copy-OpenCMUtils'.
-exec {'copy-OpenCVMinDepVersions':
-    command     => "cp ${opencv_directory}/opencv/opencv*/cmake/OpenCVMinDepVersions.cmake OpenCVMinDepVersions.cmake",
-    cwd         => "${opencv_directory}/opencv",
+## directory-cmake: create 'cmake' directory.
+exec {"${opencv_directory}/opencv/cmake":
+    ensure      => 'directory',
     refreshonly => true,
-    notify      => Exec['copy-OpenCVUtils'],
-}
+    before      => File["${opencv_directory}/opencv/openvc*/cmake],
 
-## copy-OpenCVUtils: copy the 'OpenCVUtils.cmake' into the 'opencv/' directory.
+## files-cmake: copy 'cmake/' directory to another location.
 #
 #  @notify, send a 'refresh event' to 'cmake-opencv'.
-exec {'copy-OpenCVUtils':
-    command     => "cp ${opencv_directory}/opencv/opencv*/cmake/OpenCVUtils.cmake OpenCVUtils.cmake",
-    cwd         => "${opencv_directory}/opencv",
-    refreshonly => true,
-    notify      => Exec['cmake-opencv'],
+file {"${opencv_directory}/opencv/openvc*/cmake:
+    ensure  => directory,
+    recurse => remote,
+    source  => "${opencv_directory}/opencv/cmake",
+    before  => 'cmake-opencv',
+    notify  => Exec['cmake-opencv'],
 }
 
 ## cmake-opencv: build opencv.

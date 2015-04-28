@@ -83,7 +83,7 @@ exec {'move-opencv':
 ## remove-opencv-directory: after the content of the opencv directory has
 #                           been moved, remove the empty directory.
 exec {'remove-opencv-directory':
-    command     => "rmdir ${opencv_directory}/opencv/opencv-${opencv_version}",
+    command     => "rm -r ${opencv_directory}/opencv/opencv-${opencv_version}",
     refreshonly => true,
     before      => File["${opencv_directory}/opencv/release"],
 }

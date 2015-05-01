@@ -71,7 +71,6 @@ Vagrant.configure(2) do |config|
     vb.customize ["usbfilter", "add", "0",
         "--target", :id,
         "--name", "Any mass storage",
-        "--manufacturer", "Generic",
         "--product", "Mass Storage Device"]
   end
 

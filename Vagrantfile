@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
   # Custom Manifest: execute puppet logic in 'default.pp'. Specifically, this
   #                  file will install, and setup various configurations.
   config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "manifests"
+    puppet.manifests_path = "puppet/manifests"
     puppet.manifest_file = "default.pp"
   end
 

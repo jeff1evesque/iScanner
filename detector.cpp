@@ -1,13 +1,16 @@
 #include "opencv2/opencv.hpp"
 
 using namespace cv;
+using namespace std;
 
 int main(int, char**)
 {
     VideoCapture cap(0); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
+    {
+        cout << "Cannot open the default webcam" << endl;
         return -1;
-
+    }
     Mat edges;
     namedWindow("edges",1);
     for(;;)

@@ -113,7 +113,7 @@ exec {'cmake-opencv':
 exec {'make-opencv':
     command     => "make -j $(nproc)",
     cwd         => "${opencv_directory}/opencv/release",
-    timeout     => 1800,
+    timeout     => 2100,
     notify      => Exec['install-opencv'],
     refreshonly => true,
 }

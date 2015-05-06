@@ -101,7 +101,7 @@ file {"${opencv_directory}/opencv/release":
 #
 #  @notify, send a 'refresh event' to 'make-opencv'.
 exec {'cmake-opencv':
-    command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..',
+    command     => 'cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON USE_GStreamer=ON ..',
     cwd         => "${opencv_directory}/opencv/release",
     notify      => Exec['make-opencv'],
     refreshonly => true,

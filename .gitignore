@@ -1,5 +1,6 @@
 # Ignore and don't commit the following directories
 /.vagrant/
+/log/
 
 # Ignore and don't commit the following files
 /*.exe
